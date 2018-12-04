@@ -9,15 +9,26 @@ class App extends Component {
     super(props)
 
     this.state = {
+      gameResults: 'Test Your Skills!',
       deck_id: '',
       playerHand: [],
-      dealerHand: []
+      dealerHand: [],
+      playing: true
     }
   }
 
   componentDidMount = () => {
     this.dealCards(2, 'playerHand')
     this.dealCards(2, 'dealerHand')
+  }
+
+  componentDidUpdate = () => {
+    if (this.totalHand('playerHand') > 21 && this.state.playing) {
+      this.setState({
+        gameResults: 'Player Busted!',
+        playing: false
+      })
+    }
   }
 
   dealCards = (numberOfCards, whichHand) => {
@@ -68,12 +79,16 @@ class App extends Component {
     return total
   }
 
+  get hideButtons() {
+    return this.state.playing ? '' : 'hidden'
+  }
+
   render() {
     return (
       <>
         <h1>Blackjack</h1>
         <div className="center">
-          <p className="game-results">Test Your Skills!</p>
+          <p className="game-results">{this.state.gameResults}</p>
         </div>
         <div className="center">
           <button className="reset hidden">Play Again!</button>
@@ -81,7 +96,7 @@ class App extends Component {
 
         <div className="play-area">
           <div className="left">
-            <button className="hit" onClick={this.hit}>
+            <button className={`hit ${this.hideButtons}`} onClick={this.hit}>
               Hit
             </button>
             <p>Your Cards:</p>
@@ -92,7 +107,7 @@ class App extends Component {
           </div>
 
           <div className="right">
-            <button className="stay">Stay</button>
+            <button className={`stay ${this.hideButtons}`}>Stay</button>
             <p>Dealer Cards:</p>
             <p className="dealer-total">{this.totalHand('dealerHand')}</p>
             <div className="dealer-hand">
