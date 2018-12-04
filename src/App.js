@@ -16,8 +16,15 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    this.dealCards(2, 'playerHand')
+    this.dealCards(2, 'dealerHand')
+  }
+
+  dealCards = (numberOfCards, whichHand) => {
     axios
-      .get('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+      .get(
+        `https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=${numberOfCards}`
+      )
       .then(response => {
         this.setState(
           {
@@ -28,40 +35,14 @@ class App extends Component {
               .get(
                 `https://deckofcardsapi.com/api/deck/${
                   this.state.deck_id
-                }/draw/?count=2`
+                }/draw/?count=${numberOfCards}`
               )
               .then(response => {
                 this.setState({
-                  playerHand: update(this.state.playerHand, {
+                  [whichHand]: update(this.state[whichHand], {
                     $push: response.data.cards
                   })
                 })
-                console.log(this.state.playerHand)
-              })
-          }
-        )
-      })
-    axios
-      .get('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
-      .then(response => {
-        this.setState(
-          {
-            deck_id: response.data.deck_id
-          },
-          () => {
-            axios
-              .get(
-                `https://deckofcardsapi.com/api/deck/${
-                  this.state.deck_id
-                }/draw/?count=2`
-              )
-              .then(response => {
-                this.setState({
-                  dealerHand: update(this.state.dealerHand, {
-                    $push: response.data.cards
-                  })
-                })
-                console.log(this.state.dealerHand)
               })
           }
         )
@@ -69,7 +50,22 @@ class App extends Component {
   }
 
   hit = event => {
-    console.log('hit!')
+    this.dealCards(1, 'playerHand')
+  }
+
+  totalHand = whichHand => {
+    let total = 0
+    this.state[whichHand].forEach(card => {
+      const VALUES = {
+        ACE: 11,
+        KING: 10,
+        QUEEN: 10,
+        JACK: 10
+      }
+
+      total = total + (VALUES[card.value] || parseInt(card.value))
+    })
+    return total
   }
 
   render() {
@@ -89,7 +85,7 @@ class App extends Component {
               Hit
             </button>
             <p>Your Cards:</p>
-            <p className="player-total">Total 0</p>
+            <p className="player-total">{this.totalHand('playerHand')}</p>
             <div className="player-hand">
               <Hand cards={this.state.playerHand} />
             </div>
@@ -98,7 +94,7 @@ class App extends Component {
           <div className="right">
             <button className="stay">Stay</button>
             <p>Dealer Cards:</p>
-            <p className="dealer-total">Facedown</p>
+            <p className="dealer-total">{this.totalHand('dealerHand')}</p>
             <div className="dealer-hand">
               <Hand cards={this.state.dealerHand} />
             </div>
