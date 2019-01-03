@@ -49,9 +49,9 @@ class App extends Component {
     // -- make sure to supply the deck_id
     // -- console log the result to be sure it
     // -- works the way we want
-    this.dealCards(2, 'player')
+    this.dealCards(2, 'playerHand')
 
-    this.dealCards(2, 'dealer')
+    this.dealCards(2, 'dealerHand')
   }
 
   dealCards = async (numberOfCards, whichHand) => {

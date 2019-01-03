@@ -5,7 +5,7 @@ class Hand extends Component {
     return (
       <>
         {this.props.cards.map((card, index) => {
-          return <img src={`${card.image}`} key={index} />
+          return <img src={`${card.image}`} key={index} alt="card" />
         })}
       </>
     )
