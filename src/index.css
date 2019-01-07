@@ -27,6 +27,10 @@ h1 {
   border-bottom: 4px solid rgb(230, 242, 233);
 }
 
+p {
+  margin: 0;
+}
+
 .play-area {
   display: flex;
   justify-content: space-evenly;
@@ -36,7 +40,7 @@ h1 {
   font-family: 'Ultra', serif;
   color: white;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.6);
-  margin: 2.5rem 2rem;
+  margin: 0.5rem;
   font-size: 2rem;
   line-height: 2rem;
 }
@@ -129,6 +133,7 @@ p {
 }
 
 .reset {
+  align-self: center;
   font-family: 'Ultra', serif;
   color: rgba(0, 0, 0, 0.6);
   font-size: 1.6rem;
@@ -145,6 +150,12 @@ p {
   color: rgba(0, 0, 0, 0.75);
   background-color: rgb(249, 114, 114);
   cursor: pointer;
+}
+
+.new-game {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 560px) {

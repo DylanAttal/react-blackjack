@@ -144,6 +144,10 @@ class App extends Component {
     return this.state.playing ? '' : 'hidden'
   }
 
+  _newGame = event => {
+    document.location.reload(true)
+  }
+
   render() {
     return (
       <>
@@ -177,6 +181,11 @@ class App extends Component {
               <Hand cards={this.state.dealerHand} />
             </div>
           </div>
+        </div>
+        <div className="new-game">
+          <button onClick={this._newGame} className="reset">
+            New Game
+          </button>
         </div>
       </>
     )
