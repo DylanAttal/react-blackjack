@@ -42,15 +42,7 @@ class App extends Component {
   }
 
   whenNewDeckIsShuffled = () => {
-    // this will happen after state is updated
-
-    // call the API for "Draw a Card"
-    // -- draw two cards
-    // -- make sure to supply the deck_id
-    // -- console log the result to be sure it
-    // -- works the way we want
     this.dealCards(2, 'playerHand')
-
     this.dealCards(2, 'dealerHand')
   }
 
@@ -60,8 +52,6 @@ class App extends Component {
       return
     }
 
-    // put the axios request to get this number of cards
-    // and add to the players hand
     await axios
       .get(
         `https://deckofcardsapi.com/api/deck/${
